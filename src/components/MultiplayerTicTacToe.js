@@ -1,10 +1,12 @@
 // src/components/MultiplayerTicTacToe.js
 import React, { useState, useEffect } from "react";
-import { X, Circle } from "lucide-react";
+import Lobby from "./Lobby";
+import GameBoard from "./GameBoard";
+import Status from "./Status";
+import ResetButton from "./ResetButton";
 import { db } from "../firebase";
 import { doc, setDoc, getDoc, onSnapshot, updateDoc, serverTimestamp } from "firebase/firestore";
 
-const BOARD_SIZE = 3;
 const WINNING_COMBINATIONS = [
   [0, 1, 2],
   [3, 4, 5],
@@ -86,7 +88,7 @@ const MultiplayerTicTacToe = () => {
     }
   };
 
-  const handleClick = async (index) => {
+  const handleMove = async (index) => {
     if (gameData.gameOver || gameData.board[index] || gameData.currentPlayer !== player) return;
 
     const newBoard = [...gameData.board];
@@ -134,6 +136,7 @@ const MultiplayerTicTacToe = () => {
   };
 
   const resetGame = async () => {
+    if (!roomId) return;
     await updateDoc(doc(db, "games", roomId), {
       board: Array(9).fill(null),
       currentPlayer: "X",
@@ -143,77 +146,18 @@ const MultiplayerTicTacToe = () => {
     });
   };
 
-  const renderSquare = (index) => {
-    const cell = gameData.board[index];
-    return (
-      <button
-        key={index}
-        className={`w-20 h-20 border border-gray-400 flex items-center justify-center text-4xl
-                  ${cell?.fading ? "bg-yellow-200" : ""}`}
-        onClick={() => handleClick(index)}
-      >
-        {cell?.player === "X" && <X className="text-blue-500" />}
-        {cell?.player === "O" && <Circle className="text-red-500" />}
-      </button>
-    );
-  };
-
-  if (!joined) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <h1 className="text-3xl font-bold mb-4">Fading Tic-Tac-Toe</h1>
-        <div className="mb-4">
-          <button
-            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mr-2"
-            onClick={createRoom}
-          >
-            Create Room
-          </button>
-          <input
-            type="text"
-            placeholder="Enter Room ID"
-            value={roomId}
-            onChange={(e) => setRoomId(e.target.value)}
-            className="px-2 py-1 border border-gray-300 rounded"
-          />
-          <button
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 ml-2"
-            onClick={joinRoom}
-          >
-            Join Room
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold mb-4">Fading Tic-Tac-Toe</h1>
-      <div className="mb-4">
-        <p className="text-xl font-semibold">
-          Room ID: <span className="font-mono">{roomId}</span>
-        </p>
-        <p className="text-xl font-semibold">
-          {gameData.gameOver
-            ? gameData.winner
-              ? `Winner: ${gameData.winner}`
-              : "It's a Draw!"
-            : `Current Player: ${gameData.currentPlayer}`}
-        </p>
-        <p className="text-lg mt-2">You are: {player}</p>
-      </div>
-      <div className="grid grid-cols-3 gap-1 mb-4">
-        {gameData.board.map((_, index) => renderSquare(index))}
-      </div>
-      <button
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        onClick={resetGame}
-        disabled={!gameData.gameOver}
-      >
-        Reset Game
-      </button>
-      <p className="mt-4 text-sm text-gray-600">Turn: {gameData.turnCount}</p>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
+      <h1 className="text-4xl font-extrabold text-white mb-8">Fading Tic-Tac-Toe</h1>
+      {!joined ? (
+        <Lobby createRoom={createRoom} joinRoom={joinRoom} roomId={roomId} setRoomId={setRoomId} />
+      ) : (
+        <>
+          <Status roomId={roomId} gameData={gameData} player={player} />
+          <GameBoard board={gameData.board} handleMove={handleMove} />
+          <ResetButton resetGame={resetGame} gameOver={gameData.gameOver} />
+        </>
+      )}
     </div>
   );
 };
