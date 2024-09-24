@@ -1,14 +1,13 @@
-// src/components/Game.js
 import React from "react";
 import GameBoard from "./GameBoard";
 import Status from "./Status";
 import ResetButton from "./ResetButton";
 import GameHistory from "./GameHistory";
 import ScoreBoard from "./ScoreBoard";
-import { handleMove, resetGame, calculateHighlightCell } from "../utils/gameUtils";
+import useGame from "../hooks/useGame"; // Import the entire useGame hook
 
 const Game = ({ roomId, gameData, player, username }) => {
-  const highlightCell = calculateHighlightCell(gameData, player);
+  const { handleMove, resetGame } = useGame(roomId, player); // Destructure the needed functions
 
   return (
     <div className="flex flex-col items-center w-full max-w-sm">
@@ -16,10 +15,10 @@ const Game = ({ roomId, gameData, player, username }) => {
       <Status roomId={roomId} gameData={gameData} player={player} username={username} />
       <GameBoard
         board={gameData.board}
-        handleMove={(index) => handleMove(index, roomId, gameData, player)}
-        highlightCell={highlightCell}
+        handleMove={(index) => handleMove(index)}
+        highlightCell={gameData.highlightCell}
       />
-      <ResetButton resetGame={() => resetGame(roomId, gameData.players)} gameOver={gameData.gameOver} />
+      <ResetButton resetGame={() => resetGame()} gameOver={gameData.gameOver} />
       <GameHistory gameHistory={gameData.gameHistory} />
     </div>
   );

@@ -1,4 +1,3 @@
-// src/components/Square.js
 import React from "react";
 import { X, Circle } from "lucide-react";
 
@@ -23,7 +22,7 @@ const Square = ({ index, cell, handleMove, highlight }) => {
       onClick={handleClick}
       className={`aspect-square bg-white rounded-lg shadow-md flex items-center justify-center transition 
         ${highlight ? "border-4 border-yellow-500" : "border-2 border-gray-300"} 
-        ${cell?.fading ? "bg-yellow-200 animate-pulse" : "hover:scale-105"}
+        ${cell ? "hover:scale-105" : "hover:bg-gray-100"}
       `}
       disabled={cell !== null}
     >
