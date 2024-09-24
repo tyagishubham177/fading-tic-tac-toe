@@ -90,24 +90,34 @@ const MultiplayerTicTacToe = () => {
 
   const handleMove = async (index) => {
     if (gameData.gameOver || gameData.board[index] || gameData.currentPlayer !== player) return;
-
+  
     const newBoard = [...gameData.board];
+  
+    // Remove any existing highlight from previous moves
+    newBoard.forEach((cell, i) => {
+      if (cell && cell.highlight) {
+        newBoard[i] = { ...cell, highlight: false };
+      }
+    });
+  
     newBoard[index] = { player, turn: gameData.turnCount };
-
-    // Remove the oldest mark of the current player if turnCount >=7
-    if (gameData.turnCount >= 7) {
+  
+    let oldestMarkIndex = -1;
+  
+    // Highlight the cell that will be removed after the 6th turn
+    if (gameData.turnCount >= 6) {
       const currentPlayer = player;
-      const oldestMarkIndex = newBoard.findIndex(
-        (cell) => cell && cell.player === currentPlayer && gameData.turnCount - cell.turn >= 6
+      oldestMarkIndex = newBoard.findIndex(
+        (cell) => cell && cell.player === currentPlayer && gameData.turnCount - cell.turn >= 5
       );
       if (oldestMarkIndex !== -1) {
-        newBoard[oldestMarkIndex] = null;
+        newBoard[oldestMarkIndex] = { ...newBoard[oldestMarkIndex], highlight: true }; // Highlight the oldest mark
       }
     }
-
+  
     const nextPlayer = gameData.currentPlayer === "X" ? "O" : "X";
     const newTurnCount = gameData.turnCount + 1;
-
+  
     // Check for winner
     let newWinner = null;
     for (let combo of WINNING_COMBINATIONS) {
@@ -123,9 +133,10 @@ const MultiplayerTicTacToe = () => {
         break;
       }
     }
-
+  
     const isGameOver = newWinner !== null || newBoard.every((cell) => cell !== null);
-
+  
+    // Update Firestore document
     await updateDoc(doc(db, "games", roomId), {
       board: newBoard,
       currentPlayer: isGameOver ? gameData.currentPlayer : nextPlayer,
