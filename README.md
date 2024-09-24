@@ -58,23 +58,44 @@ Let the battle of Tic-Tac-Toe begin! ⚔️
 - 🧠 **Think Fast:** Every move matters in this strategic twist!
 - 🏆 **Outplay Your Opponent:** Keep an eye on the board, and don’t let those moves fade away into oblivion! 🌀
 
+Here’s the updated project structure, focusing on the important files for your **Fading Tic-Tac-Toe** project:
+
+---
+
 ## 🔧 **Project Structure**
 
 ```bash
 src/
 │
 ├── components/
+│   ├── Game.js              # Main game component logic 🎮
 │   ├── GameBoard.js         # The board where the magic happens ✨
 │   ├── Square.js            # Individual clickable squares 🟦
 │   ├── Lobby.js             # Where players create or join rooms 🏠
 │   ├── Status.js            # Shows game info and who's winning 🏁
 │   ├── GameHistory.js       # Displays the epic game history 🏆
 │   ├── ResetButton.js       # For when you need a fresh start 🔄
+│   ├── ScoreBoard.js        # Displays current scores 📊
+│   ├── Rules.js             # Displays game rules 📜
+│   └── constants.js         # Stores constant values used throughout the game 📚
 │
-├── firebase/                # Firestore setup for real-time multiplayer 🔥
-├── App.js                   # Main game logic goes here 🎮
-└── index.js                 # App entry point 🌐
+├── hooks/
+│   └── useGame.js           # Custom hook handling game state and logic 🎯
+│
+├── utils/
+│   ├── firebaseUtils.js     # Firebase utility functions for database interactions 🔥
+│   └── gameLogic.js         # Contains core game logic, like move validation and win checks 🧠
+│
+├── firebase.js              # Firebase configuration and initialization 🔥
+├── App.js                   # Root component, handles routing and layout 🌐
+├── index.js                 # App entry point 📍
+├── App.css                  # Global app styles 🎨
+└── index.css                # Base CSS styles 📐
 ```
+
+--- 
+
+This structure highlights the key files that make up your multiplayer Tic-Tac-Toe project, ensuring that the most relevant parts are easy to locate.
 
 ## ⚡ **Tech Stack**
 
