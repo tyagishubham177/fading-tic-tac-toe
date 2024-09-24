@@ -5,7 +5,7 @@ const ResetButton = ({ resetGame, gameOver }) => {
   return (
     <button
       className={`px-6 py-3 bg-purple-500 text-white rounded-lg shadow-lg hover:bg-purple-600 transition duration-300
-        ${!gameOver ? "hidden" : "block"}
+        ${!gameOver ? "hidden" : "block w-full max-w-sm"}
       `}
       onClick={resetGame}
     >

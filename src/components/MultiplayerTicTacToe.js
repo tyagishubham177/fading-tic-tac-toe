@@ -50,7 +50,7 @@ const MultiplayerTicTacToe = () => {
   }, [joined, roomId]);
 
   const createRoom = async () => {
-    const newRoomId = Math.random().toString(36).substr(2, 9);
+    const newRoomId = Math.random().toString(36).substr(2, 9).toUpperCase();
     const gameDoc = doc(db, "games", newRoomId);
     await setDoc(gameDoc, {
       board: Array(9).fill(null),
@@ -147,8 +147,8 @@ const MultiplayerTicTacToe = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
-      <h1 className="text-4xl font-extrabold text-white mb-8">Fading Tic-Tac-Toe</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 px-2">
+      <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-8">Fading Tic-Tac-Toe</h1>
       {!joined ? (
         <Lobby createRoom={createRoom} joinRoom={joinRoom} roomId={roomId} setRoomId={setRoomId} />
       ) : (
