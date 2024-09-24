@@ -4,16 +4,9 @@ import Square from "./Square";
 
 const GameBoard = ({ board, handleMove }) => {
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-4 mb-6">
       {board.map((cell, index) => (
-        <button
-          key={index}
-          className={`cell ${cell?.highlight ? "highlighted" : ""}`}
-          onClick={() => handleMove(index)}
-          disabled={!!cell}
-        >
-          {cell?.player || ""}
-        </button>
+        <Square key={index} index={index} cell={cell} handleMove={handleMove} />
       ))}
     </div>
   );
