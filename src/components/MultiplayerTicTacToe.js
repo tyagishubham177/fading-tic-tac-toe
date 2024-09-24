@@ -148,7 +148,7 @@ const MultiplayerTicTacToe = () => {
 
   // Determine the cell to highlight
   let highlightCell = null;
-  if (gameData.currentPlayer === player && gameData.turnCount >= 6) {
+  if (gameData.currentPlayer === player && gameData.turnCount > 6) {
     // Find the oldest mark of the player
     const playerMarks = gameData.board
       .map((cell, index) => ({ cell, index }))
