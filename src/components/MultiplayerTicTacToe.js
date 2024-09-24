@@ -76,7 +76,7 @@ const MultiplayerTicTacToe = () => {
       const players = data.players || {};
       if (!players.O) {
         await updateDoc(gameDoc, {
-          [`players.O`]: true,
+          "players.O": true,
         });
         setPlayer("O");
         setJoined(true);
@@ -146,6 +146,19 @@ const MultiplayerTicTacToe = () => {
     });
   };
 
+  // Determine the cell to highlight
+  let highlightCell = null;
+  if (gameData.currentPlayer === player && gameData.turnCount >= 6) {
+    // Find the oldest mark of the player
+    const playerMarks = gameData.board
+      .map((cell, index) => ({ cell, index }))
+      .filter(({ cell }) => cell && cell.player === player)
+      .sort((a, b) => a.cell.turn - b.cell.turn);
+    if (playerMarks.length >= 1) {
+      highlightCell = playerMarks[0].index;
+    }
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 px-2">
       <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-8">Fading Tic-Tac-Toe</h1>
@@ -154,7 +167,7 @@ const MultiplayerTicTacToe = () => {
       ) : (
         <>
           <Status roomId={roomId} gameData={gameData} player={player} />
-          <GameBoard board={gameData.board} handleMove={handleMove} />
+          <GameBoard board={gameData.board} handleMove={handleMove} highlightCell={highlightCell} />
           <ResetButton resetGame={resetGame} gameOver={gameData.gameOver} />
         </>
       )}
