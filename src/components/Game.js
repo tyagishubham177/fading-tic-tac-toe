@@ -1,15 +1,12 @@
-// src/components/Game.js
 import React from "react";
 import GameBoard from "./GameBoard";
 import Status from "./Status";
 import ResetButton from "./ResetButton";
 import GameHistory from "./GameHistory";
 import ScoreBoard from "./ScoreBoard";
-import { handleMove, resetGame, calculateHighlightCell } from "../utils/gameUtils";
+import { handleMove, resetGame } from "../utils/gameUtils";
 
 const Game = ({ roomId, gameData, player, username }) => {
-  const highlightCell = calculateHighlightCell(gameData, player);
-
   return (
     <div className="flex flex-col items-center w-full max-w-sm">
       <ScoreBoard players={gameData.players} scores={gameData.scores} />
@@ -17,7 +14,7 @@ const Game = ({ roomId, gameData, player, username }) => {
       <GameBoard
         board={gameData.board}
         handleMove={(index) => handleMove(index, roomId, gameData, player)}
-        highlightCell={highlightCell}
+        highlightCell={gameData.highlightCell}
       />
       <ResetButton resetGame={() => resetGame(roomId, gameData.players)} gameOver={gameData.gameOver} />
       <GameHistory gameHistory={gameData.gameHistory} />

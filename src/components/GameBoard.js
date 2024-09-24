@@ -1,4 +1,3 @@
-// src/components/GameBoard.js
 import React from "react";
 import Square from "./Square";
 

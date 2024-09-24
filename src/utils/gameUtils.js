@@ -1,4 +1,3 @@
-// src/utils/gameUtils.js
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -19,6 +18,7 @@ export const handleMove = async (index, roomId, gameData, player) => {
   const newBoard = [...gameData.board];
   newBoard[index] = { player, turn: gameData.turnCount };
 
+  // Remove the oldest mark if it's the 7th turn or later
   if (gameData.turnCount >= 7) {
     const oldestMarkIndex = newBoard.findIndex(
       (cell) => cell && cell.player === player && gameData.turnCount - cell.turn >= 6
@@ -33,6 +33,8 @@ export const handleMove = async (index, roomId, gameData, player) => {
 
   let newWinner = checkWinner(newBoard);
   const isGameOver = newWinner !== null || newBoard.every((cell) => cell !== null);
+
+  let highlightCell = calculateHighlightCell(newBoard, nextPlayer, newTurnCount);
 
   if (isGameOver) {
     const newScores = { ...gameData.scores };
@@ -53,12 +55,14 @@ export const handleMove = async (index, roomId, gameData, player) => {
       turnCount: newTurnCount,
       scores: newScores,
       gameHistory: arrayUnion(gameResult),
+      highlightCell: null,
     });
   } else {
     await updateDoc(doc(db, "games", roomId), {
       board: newBoard,
       currentPlayer: nextPlayer,
       turnCount: newTurnCount,
+      highlightCell: highlightCell,
     });
   }
 };
@@ -70,7 +74,8 @@ export const resetGame = async (roomId, players) => {
     gameOver: false,
     winner: null,
     turnCount: 1,
-    players: players, // Keep the same player assignments
+    players: players,
+    highlightCell: null,
   });
 };
 
@@ -90,13 +95,13 @@ export const checkWinner = (board) => {
   return null;
 };
 
-export const calculateHighlightCell = (gameData, player) => {
-  if (gameData.currentPlayer === player && gameData.turnCount > 6) {
-    const playerMarks = gameData.board
+export const calculateHighlightCell = (board, currentPlayer, turnCount) => {
+  if (turnCount > 6) {
+    const playerMarks = board
       .map((cell, index) => ({ cell, index }))
-      .filter(({ cell }) => cell && cell.player === player)
+      .filter(({ cell }) => cell && cell.player === currentPlayer)
       .sort((a, b) => a.cell.turn - b.cell.turn);
-    if (playerMarks.length >= 1) {
+    if (playerMarks.length > 0) {
       return playerMarks[0].index;
     }
   }
