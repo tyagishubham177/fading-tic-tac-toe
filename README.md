@@ -117,6 +117,7 @@ No need to stop the game when you leave your desktop! Tic-Tac-Toe works seamless
 - 🏆 **Animations** – Celebrate with cool animations on winning, moves, and game transitions! 🎉🕺
 - 🌈 **Fun Moving Background** – Add dynamic backgrounds to keep the game visually exciting! 🎆
 - 🖼️ **Improved UI/UX** – A smoother and more intuitive interface to enhance the player experience! ✨📱
+- 🤖 **Play Against Bot** – Challenge a computer opponent with multiple difficulty levels! 🧠
 
 
 ## 🤝 **Contributing**
