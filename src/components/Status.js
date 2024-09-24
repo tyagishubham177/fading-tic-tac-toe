@@ -2,17 +2,19 @@
 import React from "react";
 import { Copy } from "lucide-react";
 
-const Status = ({ roomId, gameData, player }) => {
-  const { gameOver, winner, currentPlayer } = gameData;
+const Status = ({ roomId, gameData, player, username }) => {
+  const { gameOver, winner, currentPlayer, players } = gameData;
 
   const getStatusMessage = () => {
     if (gameOver) {
       if (winner) {
-        return `Winner: Player ${winner}`;
+        const winnerName = players[winner];
+        return `Winner: ${winnerName}`;
       }
       return "It's a Draw!";
     }
-    return `Current Player: ${currentPlayer}`;
+    const currentPlayerName = players[currentPlayer];
+    return `Current Player: ${currentPlayerName}`;
   };
 
   const copyRoomId = () => {
@@ -38,7 +40,10 @@ const Status = ({ roomId, gameData, player }) => {
       </div>
       <p className="text-2xl font-semibold text-white mt-2">{getStatusMessage()}</p>
       <p className="text-md text-white mt-1">
-        You are: <span className="font-bold">{player}</span>
+        You are:{" "}
+        <span className="font-bold">
+          {username} ({player})
+        </span>
       </p>
     </div>
   );
