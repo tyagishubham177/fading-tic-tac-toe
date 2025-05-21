@@ -1,9 +1,19 @@
 // src/components/Status.js
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Copy } from "lucide-react";
 
 const Status = ({ roomId, gameData, player, username, gameOutcomeAnimation }) => {
   const { gameOver, winner, currentPlayer, players } = gameData;
+  const [showCopySuccessMessage, setShowCopySuccessMessage] = useState(false);
+
+  useEffect(() => {
+    if (showCopySuccessMessage) {
+      const timer = setTimeout(() => {
+        setShowCopySuccessMessage(false);
+      }, 3000); // Hide after 3 seconds
+      return () => clearTimeout(timer); // Cleanup timer if component unmounts or if message is shown again
+    }
+  }, [showCopySuccessMessage]);
 
   const getStatusMessage = () => {
     if (gameOver) {
@@ -44,15 +54,20 @@ const Status = ({ roomId, gameData, player, username, gameOutcomeAnimation }) =>
     navigator.clipboard
       .writeText(roomId)
       .then(() => {
-        alert("Room ID copied to clipboard!");
+        setShowCopySuccessMessage(true);
       })
       .catch(() => {
-        alert("Failed to copy Room ID.");
+        alert("Failed to copy Room ID."); // This alert can remain for failure, as per instructions
       });
   };
 
   return (
-    <div className="text-center mb-6 px-4">
+    <div className="text-center mb-6 px-4 relative"> {/* Added relative for absolute positioning of the message */}
+      {showCopySuccessMessage && (
+        <div className="text-white bg-green-500 px-3 py-1 rounded-md text-sm absolute top-0 right-0 mt-2 mr-2 transition-opacity duration-500 ease-in-out">
+          Room ID copied!
+        </div>
+      )}
       <div className="flex items-center justify-center mb-2">
         <p className="text-lg text-white mr-2">
           Room ID: <span className="font-mono">{roomId}</span>
