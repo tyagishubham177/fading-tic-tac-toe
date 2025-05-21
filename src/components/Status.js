@@ -2,19 +2,42 @@
 import React from "react";
 import { Copy } from "lucide-react";
 
-const Status = ({ roomId, gameData, player, username }) => {
+const Status = ({ roomId, gameData, player, username, gameOutcomeAnimation }) => {
   const { gameOver, winner, currentPlayer, players } = gameData;
 
   const getStatusMessage = () => {
     if (gameOver) {
       if (winner) {
         const winnerName = players[winner];
-        return `Winner: ${winnerName}`;
+        const isWinnerYou = winner === player;
+        let animationClass = "";
+        if (gameOutcomeAnimation === "win" && isWinnerYou) {
+          animationClass = "animate-win-status";
+        } else if (gameOutcomeAnimation === "lose" && !isWinnerYou) {
+           // Opponent won, apply win animation to their name
+           animationClass = "animate-win-status";
+        }
+        return (
+          <>
+            Winner: <span className={animationClass}>{winnerName}</span>
+          </>
+        );
       }
-      return "It's a Draw!";
+      // Draw condition
+      let drawAnimationClass = "";
+      if (gameOutcomeAnimation === "draw") {
+        drawAnimationClass = "animate-draw-status";
+      }
+      return <span className={drawAnimationClass}>It's a Draw!</span>;
     }
+    // Active game: Current player highlighting
     const currentPlayerName = players[currentPlayer];
-    return `Current Player: ${currentPlayerName}`;
+    return (
+      <>
+        Current Player:{" "}
+        <span className="text-yellow-400 font-bold">{currentPlayerName}</span>
+      </>
+    );
   };
 
   const copyRoomId = () => {
