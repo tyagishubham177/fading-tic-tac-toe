@@ -1,20 +1,36 @@
 import { useState, useEffect, useCallback } from "react";
-import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase";
-import { updateGameState } from "../utils/firebaseUtils";
+import { subscribeToGameUpdates, updateGameState } from "../utils/firebaseUtils";
 import { checkWinner, calculateHighlightCell, getNextPlayer, isGameOver } from "../utils/gameLogic";
+
+export const calculateScoreAndHistoryUpdate = (currentWinner, currentScores, currentPlayers, currentTurnCount, existingGameHistory) => {
+  let updatedScores = { ...currentScores };
+  if (currentWinner) {
+    updatedScores[currentWinner]++;
+  }
+
+  const gameResult = {
+    winner: currentWinner,
+    winnerName: currentWinner ? currentPlayers[currentWinner] : null,
+    moves: currentTurnCount - 1, // Assuming turnCount is already incremented for the current move
+    timestamp: new Date().toISOString(),
+  };
+
+  const updatedGameHistory = [...existingGameHistory, gameResult];
+
+  return { updatedScores, updatedGameHistory };
+};
 
 const useGame = (roomId, player) => {
   const [gameData, setGameData] = useState(null);
 
   useEffect(() => {
-    if (!roomId) return;
+    if (!roomId) {
+      setGameData(null); 
+      return;
+    }
 
-    const gameDoc = doc(db, "games", roomId);
-    const unsubscribe = onSnapshot(gameDoc, (docSnap) => {
-      if (docSnap.exists()) {
-        setGameData(docSnap.data());
-      }
+    const unsubscribe = subscribeToGameUpdates(roomId, (data) => {
+      setGameData(data);
     });
 
     return () => unsubscribe();
@@ -53,18 +69,15 @@ const useGame = (roomId, player) => {
       };
 
       if (gameOver) {
-        const newScores = { ...gameData.scores };
-        if (newWinner) {
-          newScores[newWinner]++;
-        }
-        const gameResult = {
-          winner: newWinner,
-          winnerName: newWinner ? gameData.players[newWinner] : null,
-          moves: newTurnCount - 1,
-          timestamp: new Date().toISOString(),
-        };
-        newState.scores = newScores;
-        newState.gameHistory = [...gameData.gameHistory, gameResult];
+        const { updatedScores, updatedGameHistory } = calculateScoreAndHistoryUpdate(
+          newWinner,
+          gameData.scores,
+          gameData.players,
+          newTurnCount,
+          gameData.gameHistory
+        );
+        newState.scores = updatedScores;
+        newState.gameHistory = updatedGameHistory;
       }
 
       await updateGameState(roomId, newState);
@@ -81,6 +94,7 @@ const useGame = (roomId, player) => {
       winner: null,
       turnCount: 1,
       highlightCell: null,
+      // Scores and gameHistory remain as they are on manual reset
     });
   }, [gameData, roomId]);
 

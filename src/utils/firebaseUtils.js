@@ -1,6 +1,19 @@
-import { doc, setDoc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc, serverTimestamp, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import { INITIAL_GAME_STATE } from "../components/constants";
+
+export const subscribeToGameUpdates = (roomId, onUpdate) => {
+  const gameDoc = doc(db, "games", roomId);
+  const unsubscribe = onSnapshot(gameDoc, (docSnap) => {
+    if (docSnap.exists()) {
+      onUpdate(docSnap.data());
+    } else {
+      // Optionally handle the case where the document does not exist
+      onUpdate(null); 
+    }
+  });
+  return unsubscribe;
+};
 
 export const createGameRoom = async (roomId, username) => {
   const gameDoc = doc(db, "games", roomId);
