@@ -10,10 +10,10 @@ const Game = ({ roomId, gameData, player, username }) => {
   const { handleMove, resetGame } = useGame(roomId, player); // Destructure the needed functions
 
   return (
-    <div className="flex flex-col md:flex-row w-full max-w-5xl mx-auto px-4 md:gap-8">
+    <div className="flex flex-col md:flex-row w-full max-w-5xl mx-auto px-4 md:gap-8 md:items-start">
       {/* First Column */}
       <div className="flex flex-col w-full md:w-1/3 space-y-4 md:space-y-6 py-4">
-        <ScoreBoard players={gameData.players} scores={gameData.scores} />
+        <ScoreBoard players={gameData.players} scores={gameData.scores} currentPlayer={gameData.currentPlayer} />
         <GameHistory gameHistory={gameData.gameHistory} />
       </div>
 

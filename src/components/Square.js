@@ -9,10 +9,10 @@ const Square = ({ index, cell, handleMove, highlight }) => {
   const renderContent = () => {
     if (!cell) return null;
     if (cell.player === "X") {
-      return <X className="text-blue-500 transition-transform transform hover:scale-125" size={36} />;
+      return <X className="text-blue-500 transition-transform transform hover:scale-125" size={32} />;
     }
     if (cell.player === "O") {
-      return <Circle className="text-red-500 transition-transform transform hover:scale-125" size={36} />;
+      return <Circle className="text-red-500 transition-transform transform hover:scale-125" size={32} />;
     }
     return null;
   };

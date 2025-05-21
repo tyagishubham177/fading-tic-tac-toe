@@ -3,7 +3,7 @@ import Square from "./Square";
 
 const GameBoard = ({ board, handleMove, highlightCell }) => {
   return (
-    <div className="grid grid-cols-3 gap-4 mb-6 w-full">
+    <div className="grid grid-cols-3 gap-2 mb-6 w-full max-w-sm">
       {board.map((cell, index) => (
         <Square
           key={index}

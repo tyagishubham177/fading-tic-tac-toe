@@ -9,12 +9,18 @@ const Status = ({ roomId, gameData, player, username }) => {
     if (gameOver) {
       if (winner) {
         const winnerName = players[winner];
-        return `Winner: ${winnerName}`;
+        return `Winner: ${winnerName}`; // Simple string, no special styling
       }
-      return "It's a Draw!";
+      return "It's a Draw!"; // Simple string, no special styling
     }
     const currentPlayerName = players[currentPlayer];
-    return `Current Player: ${currentPlayerName}`;
+    // Return JSX for styling
+    return (
+      <>
+        Current Player:{" "}
+        <span className="text-yellow-400 font-bold">{currentPlayerName}</span>
+      </>
+    );
   };
 
   const copyRoomId = () => {
