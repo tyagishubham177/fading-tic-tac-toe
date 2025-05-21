@@ -2,7 +2,7 @@
 import React from "react";
 import { Trophy } from "lucide-react";
 
-const ScoreBoard = ({ players, scores, currentPlayer }) => {
+const ScoreBoard = ({ players, scores, currentPlayer, viewingPlayerMark }) => {
   // Prepare and sort player data
   const sortedPlayerEntries = Object.entries(players)
     .map(([mark, name]) => ({
@@ -11,10 +11,11 @@ const ScoreBoard = ({ players, scores, currentPlayer }) => {
       score: scores[mark] !== undefined ? scores[mark] : 0, // Ensure score is defined
     }))
     .sort((a, b) => {
-      if (a.mark === currentPlayer) return -1; // a (current player) comes first
-      if (b.mark === currentPlayer) return 1;  // b (current player) comes first
-      // Fallback for initial state or if currentPlayer isn't in players (should not happen in normal flow)
-      // You could also sort by mark alphabetically as a consistent fallback: return a.mark.localeCompare(b.mark);
+      if (a.mark === viewingPlayerMark) return -1; // viewing player (a) comes first
+      if (b.mark === viewingPlayerMark) return 1;  // viewing player (b) comes first
+      // Fallback for any other case (e.g. if viewingPlayerMark is not in players, though this shouldn't happen)
+      // A secondary sort by mark can be added here if desired for consistency in such edge cases.
+      // For instance: return a.mark.localeCompare(b.mark);
       return 0;
     });
 
@@ -28,7 +29,8 @@ const ScoreBoard = ({ players, scores, currentPlayer }) => {
       </div>
       <div className="flex justify-between p-4 space-x-2">
         {sortedPlayerEntries.map(({ mark, name, score }) => {
-          const isActivePlayer = mark === currentPlayer;
+          // Active turn highlighting is still based on currentPlayer
+          const isActivePlayer = mark === currentPlayer; 
           return (
             <div
               key={mark}

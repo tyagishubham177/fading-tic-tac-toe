@@ -42,7 +42,12 @@ const Game = ({ roomId, gameData, player, username }) => {
       {/* ScoreBoard */}
       {/* Desktop: Col 1, Row 1 */}
       <div className="md:col-start-1 md:col-span-1 md:row-start-1">
-        <ScoreBoard players={gameData.players} scores={gameData.scores} currentPlayer={gameData.currentPlayer} />
+        <ScoreBoard 
+          players={gameData.players} 
+          scores={gameData.scores} 
+          currentPlayer={gameData.currentPlayer} 
+          viewingPlayerMark={player} // Pass the viewing player's mark
+        />
       </div>
 
       {/* GameBoard */}
