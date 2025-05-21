@@ -21,10 +21,15 @@ const MultiplayerTicTacToe = () => {
       return;
     }
     const newRoomId = Math.random().toString(36).substr(2, 9).toUpperCase();
-    await createGameRoom(newRoomId, username);
-    setRoomId(newRoomId);
-    setPlayer("X");
-    setJoined(true);
+    try {
+      await createGameRoom(newRoomId, username);
+      setRoomId(newRoomId);
+      setPlayer("X");
+      setJoined(true);
+    } catch (error) {
+      console.error("Error in createRoom:", error);
+      alert("Error creating room. Please try again.");
+    }
   };
 
   const joinRoom = async () => {
@@ -32,12 +37,17 @@ const MultiplayerTicTacToe = () => {
       alert("Please enter a username");
       return;
     }
-    const joined = await joinGameRoom(roomId, username);
-    if (joined) {
-      setPlayer("O");
-      setJoined(true);
-    } else {
-      alert("Room is full or does not exist!");
+    try {
+      const joinedSuccess = await joinGameRoom(roomId, username);
+      if (joinedSuccess) {
+        setPlayer("O");
+        setJoined(true);
+      } else {
+        alert("Room is full or does not exist!");
+      }
+    } catch (error) {
+      console.error("Error in joinRoom:", error);
+      alert("Error joining room. Please check the Room ID and try again.");
     }
   };
 

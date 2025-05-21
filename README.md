@@ -1,4 +1,3 @@
-
 # 🎲 **Fading Tic-Tac-Toe** 🎲
 
 Welcome to **Fading Tic-Tac-Toe**! 🌀 A fun twist on the classic Tic-Tac-Toe where the game gets more intense with fading moves. It’s multiplayer, it’s competitive, and it’s all about strategy! 😎💡
@@ -6,13 +5,11 @@ Welcome to **Fading Tic-Tac-Toe**! 🌀 A fun twist on the classic Tic-Tac-Toe w
 ## 🚀 **Features**
 
 - 🎮 **Multiplayer Fun** – Play with friends online! Host a room or join one.
-- 💡 **Fading Moves** – After 6 moves, your oldest mark fades away, making every move count! 🔄
+- 💡 **Fading Moves** – A strategic twist! Each player can have a maximum of 3 marks on the board. When a player makes their 4th mark, their oldest mark fades away. 🔄
 - 👥 **Custom Usernames** – No more X and O! Play with your own username.
 - 🏆 **Game History** – Track your epic wins and intense battles in the game history! 📜
 - 📱 **Responsive UI** – Play on mobile, tablet, or desktop. It’s smooth and sleek everywhere! 💻📱
 - 🌈 **Beautiful UI** – Colorful gradients and animations to make the game more engaging! 🎨
-
-
 
 ## 🛠️ **Getting Started**
 
@@ -48,17 +45,15 @@ Let the battle of Tic-Tac-Toe begin! ⚔️
 ## 🎨 **How to Play**
 
 1. 👥 **Create/Join a Room:** Enter your username, create a new game room, or join an existing one.
-2. 📝 **Make Your Move:** Click on a square to make your move. But watch out—after 6 moves, your oldest mark will **fade away**! 😱
+2. 📝 **Make Your Move:** Click on a square to make your move. Be strategic! Each player can only have three marks on the board at any time. When you place your fourth mark, your oldest one disappears! 😱
 3. 🏁 **Win or Draw:** First to align 3 marks wins the game! If all squares are filled and no winner, it’s a draw! 🤝
 4. 🔄 **Game History:** Review who won, how many moves it took, and more!
 
 ## 🎉 **Winning Strategy**
 
-- 🚀 **Plan Ahead:** You lose the oldest mark after 6 moves, so make sure you use them wisely!
+- 🚀 **Plan Ahead:** You lose your oldest mark when placing your fourth, so make sure your three marks are always working for you!
 - 🧠 **Think Fast:** Every move matters in this strategic twist!
 - 🏆 **Outplay Your Opponent:** Keep an eye on the board, and don’t let those moves fade away into oblivion! 🌀
-
-Here’s the updated project structure, focusing on the important files for your **Fading Tic-Tac-Toe** project:
 
 ---
 
@@ -80,11 +75,11 @@ src/
 │   └── constants.js         # Stores constant values used throughout the game 📚
 │
 ├── hooks/
-│   └── useGame.js           # Custom hook handling game state and logic 🎯
+│   └── useGame.js           # Custom hook orchestrating game state, player interactions, and Firebase communication. Manages the game flow. 🎯
 │
 ├── utils/
 │   ├── firebaseUtils.js     # Firebase utility functions for database interactions 🔥
-│   └── gameLogic.js         # Contains core game logic, like move validation and win checks 🧠
+│   └── gameLogic.js         # Pure functions for core game rules: win detection, fading mark logic, turn progression, and game over conditions. 🧠
 │
 ├── firebase.js              # Firebase configuration and initialization 🔥
 ├── App.js                   # Root component, handles routing and layout 🌐
@@ -95,7 +90,32 @@ src/
 
 --- 
 
-This structure highlights the key files that make up your multiplayer Tic-Tac-Toe project, ensuring that the most relevant parts are easy to locate.
+## 💡 Code Structure Highlights & Refinements
+
+To enhance modularity and maintainability, the codebase incorporates several key design patterns and separations of concerns:
+
+-   **`src/hooks/useGame.js`**: This is the central nervous system for the game's client-side logic.
+    -   It manages the complete game state, including the board, current player, turn count, scores, and history.
+    -   It handles player moves (`handleMove`), validates them, and updates the state accordingly.
+    -   It integrates with Firebase (via `firebaseUtils.js`) to send and receive real-time game updates.
+    -   It encapsulates complex actions like resetting the game (`resetGame`).
+    -   Helper functions within this hook, such as `updateScoresAndHistory`, further break down specific tasks.
+
+-   **`src/utils/gameLogic.js`**: This module houses the pure, reusable logic that defines the rules of Fading Tic-Tac-Toe.
+    -   `checkWinner`: Determines if a winning combination exists.
+    -   `applyFadingRule`: Implements the unique "fading mark" mechanic, removing a player's oldest mark when they place their fourth mark.
+    -   `calculateHighlightCell`: Identifies which cell will fade next for the current player.
+    -   `getNextPlayer`: Manages turn progression.
+    -   `isGameOver`: Checks for game completion conditions.
+    -   Keeping this logic separate ensures that the game rules are testable and independent of the UI or state management framework.
+
+-   **`src/utils/firebaseUtils.js`**: All direct interactions with the Firebase Firestore database are consolidated here. This includes creating game rooms, allowing players to join, and updating the game state in real-time.
+
+-   **`src/components/constants.js`**: Defines shared constants like winning combinations, initial game state, and player markers (`PLAYER_X`, `PLAYER_O`) to ensure consistency and avoid magic values.
+
+This separation helps in making the code easier to understand, test, and extend.
+
+---
 
 ## ⚡ **Tech Stack**
 

@@ -9,14 +9,17 @@ export const WINNING_COMBINATIONS = [
   [2, 4, 6],
 ];
 
+export const PLAYER_X = "X";
+export const PLAYER_O = "O";
+
 export const INITIAL_GAME_STATE = {
   board: Array(9).fill(null),
-  currentPlayer: "X",
+  currentPlayer: PLAYER_X,
   gameOver: false,
   winner: null,
   turnCount: 1,
   players: {},
-  scores: { X: 0, O: 0 },
+  scores: { [PLAYER_X]: 0, [PLAYER_O]: 0 },
   gameHistory: [],
   highlightCell: null,
 };
