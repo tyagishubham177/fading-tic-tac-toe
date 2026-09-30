@@ -5,10 +5,12 @@ import ResetButton from "./ResetButton";
 import GameHistory from "./GameHistory";
 import ScoreBoard from "./ScoreBoard";
 import useGame from "../hooks/useGame"; // Import the entire useGame hook
+import HintModeToggle from "./HintModeToggle";
 
 const Game = ({ roomId, gameData, player, username }) => {
   const { handleMove, resetGame } = useGame(roomId, player); // Destructure the needed functions
   const [gameOutcomeAnimation, setGameOutcomeAnimation] = useState(null);
+  const [hintMode, setHintMode] = useState(false);
 
   useEffect(() => {
     if (gameData.gameOver) {
@@ -53,10 +55,12 @@ const Game = ({ roomId, gameData, player, username }) => {
       {/* GameBoard */}
       {/* Desktop: Col 2 (spans 2), Row 1 */}
       <div className={`md:col-start-2 md:col-span-2 md:row-start-1 flex flex-col items-center ${gameBoardAnimationClass}`}>
+        <HintModeToggle enabled={hintMode} onChange={setHintMode} />
         <GameBoard
           board={gameData.board}
           handleMove={(index) => handleMove(index)}
           highlightCell={gameData.highlightCell}
+          hintMode={hintMode}
         />
       </div>
 

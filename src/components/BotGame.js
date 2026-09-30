@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, Bot, RotateCcw } from "lucide-react";
 import GameBoard from "./GameBoard";
+import HintModeToggle from "./HintModeToggle";
 import { applyMove, createInitialState, getHighlightCell, getLegalMoves, getPositionKey } from "../game/engine";
 import { chooseEasyMove } from "../bots/easyBot";
 import { chooseMediumMove } from "../bots/search";
@@ -14,6 +15,7 @@ const BotGame = ({ username, difficulty, humanMark, onExit }) => {
   const [state, setState] = useState(() => createInitialState());
   const [isThinking, setIsThinking] = useState(false);
   const [scores, setScores] = useState({ human: 0, bot: 0, draws: 0 });
+  const [hintMode, setHintMode] = useState(false);
   const scoredTurn = useRef(null);
   const botName = labels[difficulty];
 
@@ -76,12 +78,16 @@ const BotGame = ({ username, difficulty, humanMark, onExit }) => {
 
       <section className="bot-board-card">
         <p className="turn-number">Turn {state.turnCount}</p>
-        <h2 aria-live="polite">{status}</h2>
+        <div className="bot-status-slot">
+          <h2 aria-live="polite" aria-atomic="true">{status}</h2>
+        </div>
+        <HintModeToggle enabled={hintMode} onChange={setHintMode} />
         <GameBoard
           board={state.board}
           handleMove={playMove}
           highlightCell={getHighlightCell(state)}
           disabled={isThinking || state.currentPlayer !== humanMark || state.gameOver}
+          hintMode={hintMode}
         />
         <button className="secondary-action" onClick={reset}><RotateCcw size={18} /> {state.gameOver ? "Rematch" : "Restart"}</button>
         {difficulty === "hard" && (
