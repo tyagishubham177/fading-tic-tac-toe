@@ -28,6 +28,136 @@
   color: #61dafb;
 }
 
+.mode-panel,
+.bot-panel {
+  width: min(92vw, 760px);
+  padding: 2rem;
+  color: #18212f;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 24px;
+  box-shadow: 0 24px 70px rgba(31, 20, 70, 0.28);
+}
+
+.mode-panel h2,
+.bot-panel h2,
+.bot-board-card h2 {
+  margin: 0 0 0.55rem;
+  font-size: clamp(1.55rem, 4vw, 2.25rem);
+  font-weight: 800;
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  color: #6d28d9;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.panel-copy {
+  margin: 0 0 1.4rem;
+  color: #5d6573;
+}
+
+.mode-grid,
+.difficulty-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.mode-card,
+.difficulty-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding: 1.35rem;
+  text-align: left;
+  background: #f7f5ff;
+  border: 2px solid transparent;
+  border-radius: 18px;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.mode-card:hover,
+.difficulty-card:hover,
+.difficulty-card.selected {
+  transform: translateY(-2px);
+  border-color: #7c3aed;
+  box-shadow: 0 10px 24px rgba(88, 48, 170, 0.13);
+}
+
+.mode-card strong,
+.difficulty-card strong { font-size: 1.1rem; }
+.mode-card span,
+.difficulty-card span { color: #626978; font-size: 0.9rem; line-height: 1.45; }
+.bot-mode { background: linear-gradient(145deg, #ede9fe, #fff); }
+
+.rules-link,
+.text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.25rem;
+  color: #5b21b6;
+  font-weight: 700;
+}
+
+.bot-panel { max-width: 820px; }
+.field-label { display: block; margin: 1.2rem 0 0.4rem; font-weight: 700; }
+.bot-input { width: 100%; padding: 0.8rem 0.95rem; border: 1px solid #cbd0db; border-radius: 12px; }
+.difficulty-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.difficulty-card { padding: 1rem; }
+
+.mark-picker { margin: 1.4rem 0; border: 0; padding: 0; }
+.mark-picker legend { margin-bottom: 0.55rem; font-weight: 700; }
+.mark-picker button { margin-right: 0.6rem; padding: 0.65rem 0.9rem; border: 1px solid #cbd0db; border-radius: 10px; }
+.mark-picker button.selected { color: white; background: #6d28d9; border-color: #6d28d9; }
+
+.primary-action,
+.secondary-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.8rem 1.2rem;
+  color: white;
+  background: #6d28d9;
+  border-radius: 12px;
+  font-weight: 800;
+}
+.primary-action:disabled { opacity: 0.45; }
+.lobby-back { color: white; position: absolute; top: 1rem; left: 1rem; }
+
+.bot-game-shell {
+  min-height: 100vh;
+  padding: 1.25rem;
+  color: white;
+  background: radial-gradient(circle at top, #6545c5, #24174c 70%);
+}
+.bot-game-header { display: flex; justify-content: space-between; align-items: center; max-width: 760px; margin: auto; }
+.bot-game-header .text-button { margin: 0; color: white; }
+.difficulty-pill { display: flex; gap: 0.4rem; align-items: center; padding: 0.5rem 0.8rem; background: rgba(255,255,255,0.14); border-radius: 999px; }
+.score-strip { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 620px; margin: 2rem auto 1rem; background: rgba(255,255,255,0.1); border-radius: 16px; }
+.score-strip div { padding: 0.8rem; text-align: center; }
+.score-strip span { display: block; color: #ddd6fe; font-size: 0.82rem; }
+.score-strip strong { display: block; font-size: 1.55rem; }
+.bot-board-card { width: min(94vw, 480px); margin: auto; padding: 1.5rem; color: #18212f; text-align: center; background: white; border-radius: 24px; box-shadow: 0 24px 70px rgba(0,0,0,0.24); }
+.turn-number { margin: 0; color: #7c3aed; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.secondary-action { background: #28213a; }
+.model-note { margin: 0.9rem 0 0; color: #737987; font-size: 0.78rem; }
+
+@media (max-width: 640px) {
+  .mode-panel, .bot-panel { padding: 1.25rem; }
+  .mode-grid, .difficulty-grid { grid-template-columns: 1fr; }
+  .difficulty-card { display: grid; grid-template-columns: auto 1fr; }
+  .difficulty-card span { grid-column: 1 / -1; }
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

@@ -139,6 +139,26 @@ No need to stop the game when you leave your desktop! Tic-Tac-Toe works seamless
 - 🖼️ **Improved UI/UX** – A smoother and more intuitive interface to enhance the player experience! ✨📱
 - 🤖 **Play Against Bot** – Challenge a computer opponent with multiple difficulty levels! 🧠
 
+The proposed Easy, Medium, and self-play-trained Hard modes—including architecture,
+training, evaluation, and a hosted preview workflow for contributors who do not run
+a local setup—are detailed in the [bot modes implementation plan](docs/BOT_MODES_PLAN.md).
+
+### 🤖 Bot difficulties
+
+- **Easy** uses lightweight tactics with deliberate mistakes.
+- **Medium** uses iterative-deepening alpha-beta search.
+- **Hard** combines deeper search with a value model trained through 60,000 games
+  of deterministic self-play. The checked-in model is used directly by the hosted
+  app, so players never need Python, a GPU, or a local setup.
+
+Maintainers can reproduce the Hard model with `npm run train:hard-bot`.
+
+The `feature/bot-modes-plan` branch includes a CI deployment workflow that tests,
+builds, and publishes an isolated 30-day Firebase Hosting preview. Repository
+maintainers only need to configure the existing Firebase web values and a
+`FIREBASE_TOKEN` as GitHub Actions secrets; players receive a browser URL and do
+not need a local environment.
+
 
 ## 🤝 **Contributing**
 
