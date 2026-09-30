@@ -1,0 +1,26 @@
+{
+  "format": "fading-ttt-linear-value-v1",
+  "algorithm": "epsilon-greedy Monte Carlo self-play",
+  "episodes": 60000,
+  "seed": 20260929,
+  "generatedAt": "2026-09-29T00:00:00.000Z",
+  "featureCount": 12,
+  "trainingResults": {
+    "decisiveGames": 59973,
+    "cappedDraws": 27
+  },
+  "weights": [
+    0.10543913,
+    0.35183723,
+    0.1026722,
+    4.11647991,
+    -0.70058538,
+    -0.25163268,
+    -4.18437371,
+    -0.25043319,
+    0.13551111,
+    -0.10566038,
+    0.04726507,
+    -0.10543913
+  ]
+}
