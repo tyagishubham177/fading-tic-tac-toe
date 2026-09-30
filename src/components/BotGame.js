@@ -78,7 +78,9 @@ const BotGame = ({ username, difficulty, humanMark, onExit }) => {
 
       <section className="bot-board-card">
         <p className="turn-number">Turn {state.turnCount}</p>
-        <h2 aria-live="polite">{status}</h2>
+        <div className="bot-status-slot">
+          <h2 aria-live="polite" aria-atomic="true">{status}</h2>
+        </div>
         <HintModeToggle enabled={hintMode} onChange={setHintMode} />
         <GameBoard
           board={state.board}

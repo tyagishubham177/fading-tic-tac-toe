@@ -135,7 +135,9 @@
 
 .bot-game-shell {
   min-height: 100vh;
-  padding: 1.25rem;
+  min-height: 100dvh;
+  padding: max(1.25rem, env(safe-area-inset-top)) max(1.25rem, env(safe-area-inset-right)) max(1.25rem, env(safe-area-inset-bottom)) max(1.25rem, env(safe-area-inset-left));
+  overflow-x: hidden;
   color: white;
   background: radial-gradient(circle at top, #6545c5, #24174c 70%);
 }
@@ -143,11 +145,13 @@
 .bot-game-header .text-button { margin: 0; color: white; }
 .difficulty-pill { display: flex; gap: 0.4rem; align-items: center; padding: 0.5rem 0.8rem; background: rgba(255,255,255,0.14); border-radius: 999px; }
 .score-strip { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 620px; margin: 2rem auto 1rem; background: rgba(255,255,255,0.1); border-radius: 16px; }
-.score-strip div { padding: 0.8rem; text-align: center; }
-.score-strip span { display: block; color: #ddd6fe; font-size: 0.82rem; }
+.score-strip div { min-width: 0; padding: 0.8rem; text-align: center; }
+.score-strip span { display: block; overflow: hidden; color: #ddd6fe; font-size: 0.82rem; text-overflow: ellipsis; white-space: nowrap; }
 .score-strip strong { display: block; font-size: 1.55rem; }
 .bot-board-card { width: min(94vw, 480px); margin: auto; padding: 1.5rem; color: #18212f; text-align: center; background: white; border-radius: 24px; box-shadow: 0 24px 70px rgba(0,0,0,0.24); }
 .turn-number { margin: 0; color: #7c3aed; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.bot-status-slot { display: grid; min-height: 3.2rem; place-items: center; }
+.bot-status-slot h2 { margin: 0; line-height: 1.15; }
 .secondary-action { background: #28213a; }
 .model-note { margin: 0.9rem 0 0; color: #737987; font-size: 0.78rem; }
 
@@ -182,6 +186,13 @@
   .mode-grid, .difficulty-grid { grid-template-columns: 1fr; }
   .difficulty-card { display: grid; grid-template-columns: auto 1fr; }
   .difficulty-card span { grid-column: 1 / -1; }
+  .bot-game-shell { padding: max(0.75rem, env(safe-area-inset-top)) max(0.75rem, env(safe-area-inset-right)) max(0.75rem, env(safe-area-inset-bottom)) max(0.75rem, env(safe-area-inset-left)); }
+  .score-strip { margin-top: 1rem; }
+  .score-strip div { padding: 0.65rem 0.35rem; }
+  .score-strip span { font-size: 0.72rem; }
+  .bot-board-card { width: 100%; padding: 1rem; border-radius: 18px; }
+  .bot-status-slot { min-height: 3.75rem; }
+  .bot-status-slot h2 { font-size: clamp(1.35rem, 7vw, 1.75rem); }
 }
 
 @keyframes App-logo-spin {
