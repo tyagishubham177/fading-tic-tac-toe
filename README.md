@@ -6,6 +6,7 @@ Welcome to **Fading Tic-Tac-Toe**! 🌀 A fun twist on the classic Tic-Tac-Toe w
 
 - 🎮 **Multiplayer Fun** – Play with friends online! Host a room or join one.
 - 💡 **Fading Moves** – A strategic twist! Each player can have a maximum of 3 marks on the board. When a player makes their 4th mark, their oldest mark fades away. 🔄
+- 💡 **Optional Hint Mode** – Toggle color-coded move ages in bot and online games to see both players’ latest, second-latest, and next-to-fade marks.
 - 👥 **Custom Usernames** – No more X and O! Play with your own username.
 - 🏆 **Game History** – Track your epic wins and intense battles in the game history! 📜
 - 📱 **Responsive UI** – Play on mobile, tablet, or desktop. It’s smooth and sleek everywhere! 💻📱
